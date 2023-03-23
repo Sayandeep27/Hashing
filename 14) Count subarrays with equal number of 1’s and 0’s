@@ -1,32 +1,33 @@
-  int n=nums.size();
+  //Function to count subarrays with 1s and 0s.
+    long long int countSubarrWithEqualZeroAndOne(int arr[], int n)
+    {
+       for(int i=0;i<n;i++)
+       {
+           if(arr[i]==0) arr[i]=-1;
+       }
+       
+       // now qs becomes count subarrays with sum 0;
+       
+       int k=0;
+       
+       map<int,int>mp;
+       int sum=0;
+       int ans=0;
+       
+       for(int i=0;i<n;i++)
+       {
+           sum+=arr[i];
+           
+           if(sum==k) ans++;
+           
+           if(mp.find(sum-k)!=mp.end())
+           {
+               ans+=mp[sum-k];
+           }
+           
+           mp[sum]++;
+       }
+       
+       return ans;
         
-        int ans=0,sum=0;
-        
-        unordered_map<int,int>mp;
-        
-        mp[0]=1;
-        
-        for(int i=0;i<n;i++)
-        {
-            sum+=nums[i];
-            int rem=sum%k;
-            
-            if(rem<0)
-            {
-                rem+=k;
-            }
-            
-            
-            if(mp.find(rem)!=mp.end())
-            {
-                ans+=mp[rem];
-                
-            }
-            
-            
-            mp[rem]++;
-            
-        }
-     
-        
-        return ans;
+    }
