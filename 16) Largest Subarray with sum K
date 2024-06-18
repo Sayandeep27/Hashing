@@ -1,42 +1,36 @@
- int lenOfLongSubarr(int arr[],  int n, int k) 
-    { 
-        // Complete the function
+int lenOfLongSubarr(int arr[],  int n, int target) 
+    {   
+        // HashMap to store the first occurrence of each cumulative sum
+        unordered_map<int,int>mp;
         
-       int ans=0,sum=0;
-       
-       map<int,int>mp;
-       
-       
-       for(int i=0;i<n;i++)
-       {
-           sum+=arr[i];
-           
-           if(sum==k)
-           {
-               ans=max(ans,i+1);
-               
-           }
-           
-           
-           
-           if(mp.find(sum)==mp.end()) // if the sum has not been seen previously
-           {
-               mp[sum]=i;
-           }
-           
-           
-           if(mp.find(sum-k)!=mp.end())
-           {
-               ans=max(ans,i-mp[sum-k]);
-           }
-           
-           
+        // Initialize for cases where the subarray starts from index 0
+        mp[0]=-1;
         
-       }
-       
-       
-       return ans;
+        int curr_sum=0; // Current cumulative sum
+        int ans=0;  // Maximum length of subarray with sum equal to k
+        
+        for(int i=0;i<n;i++)
+        {
+            curr_sum+=arr[i];
+            
+            
+            // Check if there is a cumulative sum that, when subtracted, results in sum k
+            if(mp.find(curr_sum-target)!=mp.end())
+            {
+                ans=max(ans,i-mp[curr_sum-target]);
+            }
+            
+            
+          // Only store the first occurrence of each cumulative sum
+          if(mp.find(curr_sum)==mp.end())
+          {
+              mp[curr_sum]=i;
+          }
+          
+          
+        }
         
         
+        return ans;
         
     } 
