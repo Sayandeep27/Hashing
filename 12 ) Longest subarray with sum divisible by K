@@ -1,34 +1,35 @@
 	int longSubarrWthSumDivByK(int arr[], int n, int k)
 	{
-	    // Complete the function
+	    int sum=0;  // Current cumulative sum
+	    int ans=0;  // Maximum length of subarray divisible by k
 	    
-	    map<int,int>mp;
 	    
+	     // HashMap to store the first occurrence of each remainder
+	    unordered_map<int,int>mp;
+	    
+	    // Initialize for subarray starting from the beginning
 	    mp[0]=-1;
-	    
-	    int ans=0;
-	    
-	    
-	    int sum=0;
 	    
 	    for(int i=0;i<n;i++)
 	    {
 	        sum+=arr[i];
 	        
+	        
+            // Calculate the remainder when currentSum is divided by k	        
 	        int rem=sum%k;
+	        if(rem<0) rem+=k;  // Ensure non-negative remainder
 	        
-	        if(rem<0)
-	        {
-	            rem+=k;
-	        }
 	        
-	        if(mp.find(rem)==mp.end())  // not seen before
-	        {
-	            mp[rem]=i;
-	        }
-	        else
+	        // If this remainder has been seen before, it means there is a subarray
+            // whose sum is divisible by k
+	        if(mp.find(rem)!=mp.end())
 	        {
 	            ans=max(ans,i-mp[rem]);
+	        }
+	        else
+	        { 
+	            // Store the first occurrence of this remainder
+	            mp[rem]=i;
 	        }
 	    }
 	    
