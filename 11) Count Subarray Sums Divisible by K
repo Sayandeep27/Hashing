@@ -1,38 +1,35 @@
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
-       int n=nums.size();
-        
-        int ans=0,sum=0;
-        
-        unordered_map<int,int>mp;
-        
-        mp[0]=1;
-        
+        int n=nums.size();
+        int cnt=0;   // Count of subarrays divisible by k
+
+        unordered_map<int,int>mp;  // HashMap to store the frequency of remainders
+
+        mp[0]=1; // Initialize for the subarray starting from the beginning
+
+        int sum=0;  // Current cumulative sum
+
         for(int i=0;i<n;i++)
         {
+            // Add the current number to the cumulative sum
             sum+=nums[i];
+
+            // Calculate the remainder when currentSum is divided by k
             int rem=sum%k;
-            
-            if(rem<0)
-            {
-                rem+=k;
-            }
-            
-            
+            if(rem<0) rem+=k; // Ensure non-negative remainder
+
+            // If this remainder has been seen before, it means there are subarrays
+            // which are divisible by k
             if(mp.find(rem)!=mp.end())
             {
-                ans+=mp[rem];
-                
+                cnt+=mp[rem];
             }
-            
-            
+
+            // Increment the frequency of this remainder
             mp[rem]++;
-            
         }
-     
-        
-        return ans;
-        
+
+        return cnt;
     }
 };
