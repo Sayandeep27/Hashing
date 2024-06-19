@@ -6,8 +6,8 @@ public:
 
     for (int i = 0; i < nums.size(); ++i) {
         // Remove elements out of the current window
-        if (!dq.empty() && dq.front() + k <= i) {
-            dq.pop_front();
+        while(!dq.empty() && dq.front()  <= i-k) {     //This part checks if the dq is not empty and if the front element's index (dq.front()) is no longer within the current window (i.e., it's k elements behind the current index i).
+            dq.pop_front();     // If it is outside, it removes that element from the front of the dq using dq.pop_front(). This ensures the dq only holds indices of elements within the current window.
         }
 
         // Remove elements smaller than the current element from the back
@@ -18,7 +18,7 @@ public:
         // Add current element's index to the deque
         dq.push_back(i);
 
-        // Start adding maximums to the result when the first window is fully inside the array
+        // This checks if we've processed at least k elements (the window is full). Start adding maximums to the result when the first window is fully inside the array
         if (i >= k - 1) {
             result.push_back(nums[dq.front()]);
         }
